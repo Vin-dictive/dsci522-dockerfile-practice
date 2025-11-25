@@ -1,9 +1,12 @@
-# Final Dockerfile
 FROM quay.io/jupyter/minimal-notebook:afe30f0c9ad8
 
-COPY conda-linux-aarch64.lock /tmp/conda-linux-aarch64.lock
+USER root
 
-RUN conda update --quiet --file /tmp/conda-linux-aarch64.lock
-RUN conda clean --all -y -f
-RUN fix-permissions "${CONDA_DIR}"
-RUN fix-permissions "/home/${NB_USER}"
+RUN mamba install -c conda-forge conda-lock
+
+USER ${NB_UID}
+
+COPY conda-lock.yml /tmp/conda-lock.yml
+
+RUN conda-lock install --name myenv /tmp/conda-lock.yml && \
+    echo "conda activate myenv" >> ~/.bashrc
