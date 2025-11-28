@@ -1,11 +1,10 @@
-name: my_env
+name: base
 channels:
   - conda-forge
 dependencies:
-  - conda-lock=3.0.4
+  - python=3.11
   - pandas=2.3.3
   - pandera=0.26.1
   - pip=25.3
-  - python=3.11.14
   - pip:
     - deepchecks==0.19.1

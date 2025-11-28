@@ -1,12 +1,12 @@
+# Final Dockerfile
 FROM quay.io/jupyter/minimal-notebook:afe30f0c9ad8
 
-USER root
+RUN fix-permissions "${CONDA_DIR}"
+RUN fix-permissions "/home/${NB_USER}"
 
-RUN mamba install -c conda-forge conda-lock
 
-USER ${NB_UID}
+COPY . .
 
-COPY conda-lock.yml /tmp/conda-lock.yml
+RUN conda env update --name base --file environment.yml
 
-RUN conda-lock install --name myenv /tmp/conda-lock.yml && \
-    echo "conda activate myenv" >> ~/.bashrc
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8000", "--no-browser", "--allow-root"]

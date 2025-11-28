@@ -1,0 +1,10 @@
+services:
+  dsci522-dockerfile-practice:
+    build: .
+    container_name: dsci522-dockerfile-practice
+    # platform: linux/amd64 # Uncomment for amd64/Windows
+    platform: linux/arm64 # Uncomment for ARM/MacOS
+    ports:
+      - "8000:8000"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
